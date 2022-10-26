@@ -1,0 +1,44 @@
+import numpy as np
+
+test1=[[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]]
+test2=[[1,2,3,4,1],[8,5,6,7,2],[9,12,10,11,3],[13,14,16,15,4],[10,8,6,4,2]]
+A=[[-2,2,-3],[-1,5,3],[2,0,-1]]
+
+def swap(A,rzad,rzad1,col):
+    for i in range(col):
+        temp= A[rzad][i]
+        A[rzad][i]=A[rzad1][i]
+        A[rzad1][i]=temp
+
+def rzad_macierzy(A):
+    rzad=len(A[0])
+    
+    for row in range(0,rzad,1):
+        
+        if A[row][row] !=0:
+            for col in range(len(A)):
+                
+                if col != row:
+                    mnoznik=A[col][row]/A[row][row]
+                 
+                    for i in range(rzad):
+                        A[col][i]-=mnoznik*A[row][i]
+                        
+        else:
+            redukowanie=True
+
+            for i in range(row+1,len(A)):
+                if A[i][row] != 0:
+                    swap(A,row,i,rzad)
+                    
+                    redukowanie=False
+                    break
+                if redukowanie: 
+                    rzad-=1 
+                    for i in range(A):
+                        A[i][row]=A[i][rzad]
+            row -=1   
+    return rzad               
+
+print(rzad_macierzy(A))
+print(np.linalg.matrix_rank(A))
