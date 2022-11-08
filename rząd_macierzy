@@ -35,10 +35,12 @@ def rzad_macierzy(A):
                     break
                 if redukowanie: 
                     rzad-=1 
-                    for i in range(A):
+                    for i in range(len(A)):
                         A[i][row]=A[i][rzad]
             row -=1   
     return rzad               
 
 print(rzad_macierzy(A))
 print(np.linalg.matrix_rank(A))
+print(rzad_macierzy(test1))
+print(np.linalg.matrix_rank(test1))
