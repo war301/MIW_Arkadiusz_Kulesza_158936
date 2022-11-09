@@ -8,7 +8,7 @@ def wyznacznik(A):
     else:
         for ind in indeksy:
             ac=A.copy()
-            ac=ac[1:0]
+            ac=ac[1:]
             height=len(ac)
             for i in range(height):
                 
