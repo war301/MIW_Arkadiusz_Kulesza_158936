@@ -1,0 +1,55 @@
+A = [[5,4,3,2,1],[4,3,2,1,5],[3,2,9,5,4],[2,1,5,4,3],[1,2,3,4,5]]
+
+print('\n'.join([''.join(['{:4}'.format(item) for item in row]) for row in A]),'\n')
+
+def wyznacznik(A):
+    wynik=0
+    indeksy=list(range(len(A)))
+
+    if(len(indeksy)==2):
+        return A[0][0]*A[1][1]-A[0][1]*A[1][0]
+    else:
+        for ind in indeksy:
+            ac=A.copy()
+            ac=ac[1:]
+            height=len(ac)
+            for i in range(height):
+                
+                ac[i]=ac[i][0:ind]+ac[i][ind+1:]
+
+            znak=(-1)**(ind%2)
+            podmacierz = wyznacznik(ac)
+            wynik+=znak*podmacierz*A[0][ind]    
+    return wynik
+
+def dopełnienie_macierzy(A):
+    B=np.zeros((len(A),len(A)), dtype=int)
+    for i in range(len(A)):
+        for j in range(len(A)):
+            pom_macierz=A.copy()
+            pom=np.delete(pom_macierz, i, 0)
+            pom=np.delete(pom, j, 1)
+            B[i][j]=((-1)**((i+1)+(j+1)))*np.linalg.det(pom)
+    return B        
+
+def transpozycja_macierzy(matrix):
+    return [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]
+#git
+
+def odwrotność_macierzy(A):
+    if wyznacznik(A) != 0:
+        B=dopełnienie_macierzy(A)
+        C=transpozycja_macierzy(B)
+        for i in range(len(A)):
+            for j in range(len(A)):
+                C[i][j]=C[i][j]*(1/wyznacznik(A))
+        return C
+    else:
+        return "nie ma macierzy odwrotnej"  
+        
+print('\n'.join([''.join(['{:20}'.format(item) for item in row]) for row in odwrotność_macierzy(A)]))
+print('\n')
+
+#nie wiem dlaczego jest inaczej ale moje jest dobrze 
+
+print(np.linalg.inv(A))   
